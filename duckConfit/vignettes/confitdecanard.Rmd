@@ -1,0 +1,50 @@
+---
+title: "Confit de Canard"
+author: "Ian Jonsen"
+date: "22/09/2017"
+output: 
+  html_document:
+    toc: false
+    theme: cerulean
+    highlight: default
+---
+
+This short vignette documents the data preparation and SSM-filtering steps used for the RAATD data. The workflow is illustrated using the royal penguin (**) data as an example. 
+
+## Data preparation
+Load example royal penguin data and apply `prefilter()` to prepare data for state-space filtering. The function prints information about the number of tracks discarded and location flagged to be ignored by the state-space filter
+```{r, eval = FALSE}
+require(dplyr)
+require(duckConfit)
+data(rope)
+
+pfd <- prefilter(
+  dat = rope,
+  metadata = meta,
+  sp = "ROPE",
+  min_obs = 30,
+  min_days = 5,
+  vmax = 10
+  )
+
+```
+
+## State-space filtering
+Fit state-space model to pre-filtered data `pfd` and use `dplyr::do()` to apply `sfilter()` to each individual track. Use `redo_sfilter()` to attempt to recover cases where the SSM failed to converge. `redo_sfilter()` will try `tries = n` times before giving up. Output is a `tibble` grouped by individual id.
+```{r, eval = FALSE}
+
+ssm_by_id <- pfd %>%
+  do(ssm = sfilter(., span = 0.4, nu = 5))
+
+ssm_by_id <- redo_sfilter(ssm_by_id, pfd, tries = 10)
+
+```
+
+
+## Generating Quality Control Plots
+A .pdf file of plots to aid quality control decisions are generated using `qc_plot()` with 1 individual track per page. The file is saved to the working directory by default, this can be changed by specifying the file path via the `fpath` argument. Three plots are printed per page: (1) a map of the estimated track (blue points and line) overlaid on the data passed to the state-space filter (red points); (2) a plot of estimated longitudes (blue) overlaid on the observed longitudes (red); (3) a plot of estimated latitudes (blue) overlaid on the observation latitudes (red). In all cases, the plots are scaled to the estimated track for ease of visualisation - some observed data may occur outside the plotted range.
+```{r, eval = FALSE}
+
+ssm_by_id %>% qc_plot(sp = "rope")
+
+```

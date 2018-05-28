@@ -1,0 +1,22 @@
+Package: duckConfit
+Title: State-space filtering code for RAATD data paper
+Version: 0.0.0.9001
+Authors@R: person("Ian", "Jonsen", email = "ian.jonsen@mq.edu.au", role = c("aut", "cre"))
+Description: Crispy estimated tracks rendered from their own error-prone data. Prepares RAATD standardised track data for state-space filtering. State-space filters the prepared data and generates plot for quality control purposes.
+Depends: R (>= 3.4.0)
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
+Imports: mapdata,
+    dplyr,
+    ssmTMB,
+    ggplot2,
+    diveMove,
+    lubridate,
+    readr,
+    tibble,
+    gridExtra
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
