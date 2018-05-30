@@ -1,6 +1,6 @@
 # RAATD
 
-<img align="right" style="max-width:25%" src="https://rawgit.com/SCAR/RAATD/master/logo/RAATD_logo.jpg" />
+<img align="right" width="35%" src="https://rawgit.com/SCAR/RAATD/master/logo/RAATD_logo.jpg" />
 
 The Retrospective Analysis of Antarctic Tracking Data (RAATD) is a SCAR project, also endorsed by the [Commission for the Conservation of Antarctic Marine Living Resources (CCAMLR)](https://www.ccamlr.org/). It is an effort of the SCAR Expert Groups on [Birds and Marine Mammals](https://www.scar.org/science/eg-bamm/) and [Antarctic Biodiversity Informatics](https://www.scar.org/science/egabi/abi/).
 
