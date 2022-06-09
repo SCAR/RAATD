@@ -17,7 +17,7 @@ This repository will contain code and other goodies from the project.
 [1] Ropert-Coudert Y, Van de Putte AP, Reisinger RR, Bornemann H, Charrassin J-B, Costa DP, Danis B, Hückstädt LA, Jonsen ID, Lea M-A, Thompson D, Torres LG, Trathan PN, Wotherspoon S, Ainley DG, Alderman R, Andrews-Goff V, Arthur B, Ballard G, Bengtson J, Bester MN, Blix AS, Boehme L, Bost C-A, Boveng P, Cleeland J, Constantine R, Crawford RJM, Dalla Rosa L, de Bruyn PJN, Delord K, Descamps S, Double M, Emmerson L, Fedak M, Friedlaender A, Gales N, Goebel M, Goetz KT, Guinet C, Goldsworthy SD, Harcourt R, Hinke JT, Jerosch K, Kato A, Kerry KR, Kirkwood R, Kooyman GL, Kovacs KM, Lawton K, Lowther AD, Lydersen C, Lyver PO, Makhado AB, Márquez MEI, McDonald BI, McMahon CR, Muelbert M, Nachtsheim D, Nicholls KW, Nordøy ES, Olmastroni S, Phillips RA, Pistorius P, Plötz J, Pütz K, Ratcliffe N, Ryan PG, Santos M, Southwell C, Staniland I, Takahashi A, Tarroux A, Trivelpiece W, Wakefield E, Weimerskirch H, Wienecke B, Xavier JC, Raymond B, Hindell MA (2020) The retrospective analysis of Antarctic tracking data project. Scientific Data 7:94. DOI: https://doi.org/10.1038/s41597-020-0406-x
 
 ## Datasets
-The datasets are available to download from:
+The datasets as described in [Ropert-Coudert et al. (2020)](https://doi.org/10.1038/s41597-020-0406-x) are available to download from:
 https://zenodo.org/record/3722948#.YqG-DpBBw-Q
 
 In addition to the [filtered dataset](https://data.aad.gov.au/datasets/science/SCAR_EGBAMM_RAATD_2018_Filtered), the [standardised dataset](https://data.aad.gov.au/metadata/SCAR_EGBAMM_RAATD_2018_Standardised) is available via the Australian Antarctic Data Centre.
