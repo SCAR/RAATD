@@ -142,24 +142,23 @@ writeRaster(rast.gbm.av, file = paste0("modPreds/", this.species, "_", this.stag
 # Convert to percentile
 #total_area <- sum(cell_areas[!is.na(rast.gbm.av)])
 
-suitability_to_percentiles <- function(x,avail,avail_threshold=0.01,N=21) {
-  ## expect that x is a raster containing predicted usage probability (suitability multiplied by availability)
-  cell_areas <- raster::values(area(x))
-  vals <- raster::values(x)
-  av <- raster::values(avail) ## have been given an explicit availability raster
-  ## need to apply threshold to this layer
-  ## the default of 0.01 is largely arbitrary, needs some thought
-  idx <- av>=avail_threshold & !is.na(vals)
-  total_area <- sum(cell_areas[idx], na.rm = T)
-  tst <- seq(min(vals,na.rm=TRUE),max(vals,na.rm=TRUE),length.out=N)
-  ## calculate the percentage of area corresponding to each of these tst values
-  s2p <- function(z) sum(cell_areas[which(idx & vals<=z)])/total_area*100
-  arp <- vapply(tst,s2p,FUN.VALUE=1)
-  values(x) <- approx(tst,arp,vals)$y
-  x
+suitability_to_percentiles <- function(x, N = 200) {
+    ## expect that x is a raster containing predicted usage probability (suitability multiplied by availability)
+    cell_areas <- area(x)
+    vals <- raster::values(x * cell_areas) ## km^2
+    total_area <- sum(cell_areas[!is.na(x)]) ## non-land
+    cell_areas <- raster::values(cell_areas)
+    smallish <- quantile(vals, 0.1, na.rm = TRUE) ## cumulative area increases rapidly for small values, so put more points at small values
+    tst <- c(seq(0, smallish, length.out = N), seq(smallish, max(vals, na.rm = TRUE), length.out = N)[-1])
+    ## calculate the percentage of area corresponding to each of these tst values
+    s2p <- function(z) sum(cell_areas[which(vals <= z)]) / total_area * 100
+    arp <- vapply(tst, s2p, FUN.VALUE = 1)
+    ## and use that relationship to transform the whole raster
+    values(x) <- approx(tst, arp, vals)$y
+    x
 }
 
-ras.trans <- suitability_to_percentiles(x = rast.gbm.av, avail = rast.av, avail_threshold=0.01)
+ras.trans <- suitability_to_percentiles(x = rast.gbm.av)
 plot(ras.trans, main = paste0(this.species, " - ", this.stage, " - TRANSFORMED"), col = viridis(125))
 writeRaster(ras.trans, file = paste0("modPreds/", this.species, "_", this.stage, "_gbm_rast_trans.grd"), format = "raster", overwrite = T)
 
@@ -175,7 +174,7 @@ if (this.species %in% c("CRAS", "HUWH", "WESE")) {
 
 # Multiply them, percentile transform and save the output
 wHab <- rast.ens*col
-wHab <- suitability_to_percentiles(x = wHab, avail = rast.av)
+wHab <- suitability_to_percentiles(x = wHab)
 writeRaster(wHab, paste0("modPreds/", this.species, "_", this.stage, "_gbmcw_rast_trans.grd"), overwrite = T)
 
 # Add values to the prediction dataframe

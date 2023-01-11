@@ -100,21 +100,20 @@ saveRDS(pred.scam, file = paste0("../predictionsError/", this.species, "_", this
 pred_gbm.av <- out*pred.scam
 
 # Importance conversion
-suitability_to_percentiles <- function(x,avail,avail_threshold=0.01,N=21) {
-  ## expect that x is a raster containing predicted usage probability (suitability multiplied by availability)
-  cell_areas <- raster::values(area(x))
-  vals <- raster::values(x)
-  av <- raster::values(avail) ## have been given an explicit availability raster
-  ## need to apply threshold to this layer
-  ## the default of 0.01 is largely arbitrary, needs some thought
-  idx <- av>=avail_threshold & !is.na(vals)
-  total_area <- sum(cell_areas[idx], na.rm = T)
-  tst <- seq(min(vals,na.rm=TRUE),max(vals,na.rm=TRUE),length.out=N)
-  ## calculate the percentage of area corresponding to each of these tst values
-  s2p <- function(z) sum(cell_areas[which(idx & vals<=z)])/total_area*100
-  arp <- vapply(tst,s2p,FUN.VALUE=1)
-  values(x) <- approx(tst,arp,vals)$y
-  x
+suitability_to_percentiles <- function(x, N = 200) {
+    ## expect that x is a raster containing predicted usage probability (suitability multiplied by availability)
+    cell_areas <- area(x)
+    vals <- raster::values(x * cell_areas) ## km^2
+    total_area <- sum(cell_areas[!is.na(x)]) ## non-land
+    cell_areas <- raster::values(cell_areas)
+    smallish <- quantile(vals, 0.1, na.rm = TRUE) ## cumulative area increases rapidly for small values, so put more points at small values
+    tst <- c(seq(0, smallish, length.out = N), seq(smallish, max(vals, na.rm = TRUE), length.out = N)[-1])
+    ## calculate the percentage of area corresponding to each of these tst values
+    s2p <- function(z) sum(cell_areas[which(vals <= z)]) / total_area * 100
+    arp <- vapply(tst, s2p, FUN.VALUE = 1)
+    ## and use that relationship to transform the whole raster
+    values(x) <- approx(tst, arp, vals)$y
+    x
 }
 
 # Peform the conversion for each column of output (corresponding to each bootstrap iteration),
@@ -156,7 +155,7 @@ hold <- foreach (i=1:K,
   v <- rasterFromXYZ(v, crs = CRS("+proj=longlat +ellps=WGS84"))
   
   # importance
-  ras.trans <- suitability_to_percentiles(x = d, avail = v, avail_threshold=0.01)
+  ras.trans <- suitability_to_percentiles(x = d)
   
   # Clean up
   rm(d, v)
