@@ -10,7 +10,7 @@ This repository will contain code and other goodies from the project.
 
 - the [availability R package](https://github.com/AustralianAntarcticDataCentre/availability) provides functions for estimating the geographic range available to animals, based on recorded tracks
 
-## Publications
+## Primary publications
 
 [3] Reisinger RR, Brooks CM, Raymond B, Freer JJ, Cotté C, Xavier JC, Trathan PN, Bornemann H, Charrassin J-B, Costa DP, Hückstädt L, Jonsen ID, Lea M-A, Torres L, Van de Putte A, Wotherspoon S, Friedlaender AS, Ropert-Coudert Y, Hindell M (2022) Predator-derived bioregions in the Southern Ocean: characteristics, drivers and representation in Marine Protected Areas.
 Biological Conservation 272:109630. DOI: https://doi.org/10.1016/j.biocon.2022.109630
@@ -24,3 +24,6 @@ The datasets as described in [Ropert-Coudert et al. (2020)](https://doi.org/10.1
 https://zenodo.org/record/3722948#.YqG-DpBBw-Q
 
 In addition to the [filtered dataset](https://data.aad.gov.au/datasets/science/SCAR_EGBAMM_RAATD_2018_Filtered), the [standardised dataset](https://data.aad.gov.au/metadata/SCAR_EGBAMM_RAATD_2018_Standardised) is available via the Australian Antarctic Data Centre.
+
+## Other publications, reports and projects that have used the RAATD data
+Ian D. Cresswell, Nicholas J. Bax, Andrew J. Constable, Keith Reid, and Anthony D. M. Smith (2023) The unique marine ecosystem surrounding Macquarie Island. Independent Report published by The Australian Marine Conservation Society and The Pew Charitable Trusts. DOI: https://dx.doi.org/10.5281/zenodo.7623378
